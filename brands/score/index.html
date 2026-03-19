@@ -72,7 +72,7 @@
         <span class="hero__headline-line1">PLAN CANAL</span>
         <span class="hero__headline-line2">MODERNO 2026</span>
       </h1>
-      <p class="hero__subtitle" id="heroSubtitle">SCORE Energy Drink &nbsp;·&nbsp; Presentación Directorio</p>
+      <p class="hero__subtitle" id="heroSubtitle">SCORE Energy Drink</p>
     </div>
   </section>
 
@@ -94,7 +94,7 @@
         </div>
         <div class="kpi-card">
           <span class="kpi-card__value kpi-card__value--accent" data-counter="12" data-prefix="" data-suffix="%">12%</span>
-          <span class="kpi-card__label">Market Share Canal Moderno</span>
+          <span class="kpi-card__label">Market Share Canal Moderno <span style="font-size:0.75em;color:var(--color-text-muted)">(UN)</span></span>
         </div>
         <div class="kpi-card">
           <span class="kpi-card__value" data-counter="3" data-prefix="" data-suffix="°">3°</span>
@@ -122,7 +122,7 @@
         </div>
         <div class="kpi-card">
           <span class="kpi-card__value kpi-card__value--accent" data-counter="17" data-prefix="" data-suffix="%">17%</span>
-          <span class="kpi-card__label">Market Share objetivo</span>
+          <span class="kpi-card__label">Market Share objetivo <span style="font-size:0.75em;color:var(--color-text-muted)">(UN)</span></span>
         </div>
         <div class="kpi-card">
           <span class="kpi-card__value kpi-card__value--accent" data-counter="55" data-prefix="+" data-suffix="%">+55%</span>
@@ -177,6 +177,31 @@
           </div>
         </div>
       </div>
+
+      <div class="total-spm-tables" data-reveal data-reveal-delay="0.4">
+        <div class="total-spm-card">
+          <div class="total-spm-card__title">Total Supermercados — Valor (CLP)</div>
+          <table class="spm-table">
+            <thead>
+              <tr><th>TOTAL SPM</th><th>2026</th><th>2025</th><th>Crec. Proyectado</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>LATAS</td><td>$85.745.970.598</td><td>$73.960.553.993</td><td class="spm-crec">16%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="total-spm-card">
+          <div class="total-spm-card__title">Total Supermercados — Unidades</div>
+          <table class="spm-table">
+            <thead>
+              <tr><th>TOTAL SPM</th><th>2026</th><th>2025</th><th>Crec. Proyectado</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>LATAS</td><td>55.412.375</td><td>47.660.923</td><td class="spm-crec">16%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -212,9 +237,15 @@
       <p class="section__label" data-reveal>ESTRATEGIA</p>
       <h2 class="section__title" data-reveal data-reveal-delay="0.1">Plan por Cadena 2026</h2>
       <p class="section__subtitle" data-reveal data-reveal-delay="0.15">Proyecciones, market share objetivo e iniciativas clave por cadena</p>
-
-      <div class="planes-grid" id="planesGrid" data-reveal data-reveal-delay="0.2">
+    </div>
+    <div class="planes-slideshow" id="planesSlideshow">
+      <div class="planes-track" id="planesTrack">
         <!-- Populated by JS -->
+      </div>
+      <div class="planes-controls">
+        <button class="planes-btn planes-btn--prev" id="planesPrev" aria-label="Cadena anterior">&#8592;</button>
+        <div class="planes-indicators" id="planesIndicators"></div>
+        <button class="planes-btn planes-btn--next" id="planesNext" aria-label="Cadena siguiente">&#8594;</button>
       </div>
     </div>
   </section>
@@ -252,7 +283,7 @@
         <div class="org-level">
           <div class="org-node" id="orgKAM">
             <span class="org-node__role">CPFR / KAM</span>
-            <span class="org-node__title">Key Account Manager</span>
+            <span class="org-node__title">Key Account Manager &nbsp;<span class="badge badge--new" style="font-size:0.6rem;vertical-align:middle">(Por contratar)</span></span>
             <ul class="org-node__functions" aria-label="Funciones">
               <li class="org-node__function">Forecasting</li>
               <li class="org-node__function">DOH / In-Stock / FR</li>
@@ -292,7 +323,7 @@
           </div>
           <div class="org-node org-node--kas" id="orgKAS3" style="border-color: rgba(74,226,74,0.3);">
             <span class="org-node__role">KAS 3</span>
-            <span class="org-node__title" style="color:var(--color-success)">Por incorporar</span>
+            <span class="org-node__title" style="color:var(--color-success)">(Por contratar)</span>
             <ul class="org-node__functions" aria-label="Funciones">
               <li class="org-node__function">Gestión en sala</li>
               <li class="org-node__function">Reposición</li>
@@ -301,7 +332,7 @@
           </div>
           <div class="org-node org-node--kas" id="orgKAS4" style="border-color: rgba(74,226,74,0.3);">
             <span class="org-node__role">KAS 4</span>
-            <span class="org-node__title" style="color:var(--color-success)">Por incorporar</span>
+            <span class="org-node__title" style="color:var(--color-success)">(Por contratar)</span>
             <ul class="org-node__functions" aria-label="Funciones">
               <li class="org-node__function">Gestión en sala</li>
               <li class="org-node__function">Reposición</li>
@@ -316,7 +347,7 @@
         <div class="org-level">
           <div class="org-node" id="orgPracticante">
             <span class="org-node__role">Practicante</span>
-            <span class="org-node__title">Soporte comercial</span>
+            <span class="org-node__title">Soporte comercial &nbsp;<span style="color:#D97706;font-size:0.7em">(Por reemplazar)</span></span>
             <ul class="org-node__functions" aria-label="Funciones">
               <li class="org-node__function">Pedidos &amp; Sell-In</li>
               <li class="org-node__function">Logística</li>
@@ -570,7 +601,7 @@
         <span class="cierre__headline-sub">CERRANDO LA BRECHA</span>
       </div>
 
-      <p class="cierre__tagline" data-reveal data-reveal-delay="0.3">Plan Canal Moderno · Presentación Directorio</p>
+      <p class="cierre__tagline" data-reveal data-reveal-delay="0.3">Plan Canal Moderno</p>
 
       <div class="cierre__kpis" data-reveal data-reveal-delay="0.4">
         <div class="cierre-kpi">
@@ -588,6 +619,15 @@
       </div>
     </div>
   </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Foto en pantalla completa">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Cerrar">×</button>
+    <button class="lightbox__prev" id="lightboxPrev" aria-label="Foto anterior">‹</button>
+    <div class="lightbox__img" id="lightboxImg"></div>
+    <button class="lightbox__next" id="lightboxNext" aria-label="Foto siguiente">›</button>
+    <div class="lightbox__caption" id="lightboxCaption"></div>
+  </div>
 
   <!-- Scripts -->
   <script src="../../shared/js/core.js"></script>

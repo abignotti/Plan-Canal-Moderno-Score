@@ -12,7 +12,7 @@
     "2026": [29264512, 9715437, 8687096, 7745330]
   },
   "marketShareCadenas": {
-    "labels": ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
+    "labels": ["Walmart", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
     "values": [48, 18, 16, 14, 5]
   },
   "planesCadena": [
