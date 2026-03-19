@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SCORE Energy Drink — Plan Canal Moderno 2026. Presentación para el directorio.">
+  <title>SCORE Energy — Plan Canal Moderno 2026</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="shared/css/base.css">
+
+  <style>
+    /* ============================================================
+       LANDING PAGE — index.html specific styles
+       ============================================================ */
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .landing {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #080808;
+      overflow: hidden;
+    }
+
+    /* Radial gradient background */
+    .landing__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(244, 255, 0, 0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 120% 100% at 50% 100%, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* CSS grid pattern overlay */
+    .landing__grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    /* Animated accent glow */
+    .landing__glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 255, 0, 0.06) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse-glow 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+      50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .landing__glow { animation: none; }
+    }
+
+    /* Content */
+    .landing__content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      opacity: 0;
+    }
+
+    /* Logo */
+    .landing__logo {
+      width: clamp(160px, 25vw, 280px);
+      height: auto;
+      margin-bottom: clamp(2rem, 5vh, 3.5rem);
+      filter: drop-shadow(0 0 30px rgba(244, 255, 0, 0.2));
+    }
+
+    /* Title */
+    .landing__title {
+      font-family: 'Bebas Neue', sans-serif;
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      margin-bottom: clamp(0.75rem, 2vh, 1.25rem);
+    }
+
+    .landing__title-plan {
+      display: block;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      color: #ffffff;
+    }
+
+    .landing__title-year {
+      display: block;
+      font-size: clamp(4rem, 12vw, 9rem);
+      color: #F4FF00;
+      text-shadow: 0 0 60px rgba(244, 255, 0, 0.4);
+      line-height: 1;
+    }
+
+    /* Tagline */
+    .landing__tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.8rem, 1.5vw, 1rem);
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #888888;
+      margin-bottom: clamp(2rem, 5vh, 3.5rem);
+    }
+
+    /* Divider line */
+    .landing__divider {
+      width: 60px;
+      height: 1px;
+      background: rgba(244, 255, 0, 0.4);
+      margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+    }
+
+    /* CTA Button */
+    .landing__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 1rem 2.25rem;
+      border: 1px solid #F4FF00;
+      border-radius: 4px;
+      background: transparent;
+      color: #F4FF00;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.85rem, 1.3vw, 1rem);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .landing__cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #F4FF00;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .landing__cta:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .landing__cta:hover {
+      color: #080808;
+      box-shadow: 0 0 30px rgba(244, 255, 0, 0.3);
+    }
+
+    .landing__cta span,
+    .landing__cta svg {
+      position: relative;
+      z-index: 1;
+    }
+
+    .landing__cta svg {
+      transition: transform 0.3s ease;
+    }
+
+    .landing__cta:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* Bottom corner decorations */
+    .landing__corner {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.3;
+    }
+
+    .landing__corner span {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #888888;
+    }
+
+    .landing__corner-arrow {
+      width: 1px;
+      height: 30px;
+      background: linear-gradient(to bottom, #888888, transparent);
+      animation: bounce-arrow 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce-arrow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .landing__corner-arrow { animation: none; }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .landing__cta {
+        padding: 0.9rem 1.75rem;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="landing">
+    <!-- Background layers -->
+    <div class="landing__bg" aria-hidden="true"></div>
+    <div class="landing__grid" aria-hidden="true"></div>
+    <div class="landing__glow" aria-hidden="true"></div>
+
+    <!-- Main content -->
+    <div class="landing__content" id="landingContent">
+      <img
+        class="landing__logo"
+        src="Assets/Logos e Isotipos/Logo SCORE Original (sin fondo).png"
+        alt="SCORE Energy Drink"
+        id="landingLogo"
+      >
+
+      <h1 class="landing__title" id="landingTitle">
+        <span class="landing__title-plan">PLAN CANAL MODERNO</span>
+        <span class="landing__title-year">2026</span>
+      </h1>
+
+      <div class="landing__divider" id="landingDivider"></div>
+
+      <p class="landing__tagline" id="landingTagline">Presentación Directorio · SCORE Energy Drink</p>
+
+      <a href="brands/score/" class="landing__cta" id="landingCta" aria-label="Ver Plan Canal Moderno 2026">
+        <span>Ver Plan 2026</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="landing__corner" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="landing__corner-arrow"></div>
+    </div>
+  </div>
+
+  <script>
+    // Landing entrance animation
+    (function() {
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReduced) {
+        document.getElementById('landingContent').style.opacity = '1';
+        return;
+      }
+
+      var content = document.getElementById('landingContent');
+      var logo = document.getElementById('landingLogo');
+      var title = document.getElementById('landingTitle');
+      var divider = document.getElementById('landingDivider');
+      var tagline = document.getElementById('landingTagline');
+      var cta = document.getElementById('landingCta');
+
+      // Set initial states
+      gsap.set(content, { opacity: 1 });
+      gsap.set(logo, { opacity: 0, y: -40 });
+      gsap.set(title, { opacity: 0, y: 30 });
+      gsap.set(divider, { opacity: 0, scaleX: 0 });
+      gsap.set(tagline, { opacity: 0, y: 15 });
+      gsap.set(cta, { opacity: 0, y: 15 });
+
+      var tl = gsap.timeline({ delay: 0.2 });
+
+      tl.to(logo, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out'
+      })
+      .to(title, {
+        opacity: 1,
+        y: 0,
+        duration: 0.75,
+        ease: 'power2.out'
+      }, '-=0.3')
+      .to(divider, {
+        opacity: 1,
+        scaleX: 1,
+        duration: 0.4,
+        ease: 'power2.out',
+        transformOrigin: 'left center'
+      }, '-=0.2')
+      .to(tagline, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power2.out'
+      }, '-=0.3')
+      .to(cta, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power2.out'
+      }, '-=0.4');
+    })();
+  </script>
+</body>
+</html>

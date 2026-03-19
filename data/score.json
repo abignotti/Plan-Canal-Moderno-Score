@@ -1,0 +1,147 @@
+{
+  "kpis2025": { "latas": 5.9, "marketShare": 12, "posicion": 3 },
+  "kpis2026": { "latas": 9.3, "marketShare": 17, "crecimiento": 55 },
+  "ventasCLP": {
+    "labels": ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo"],
+    "2025": [34946, 14591, 12243, 12180],
+    "2026": [43683, 16051, 13467, 12545]
+  },
+  "ventasUN": {
+    "labels": ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo"],
+    "2025": [23411610, 8832215, 7897360, 7519738],
+    "2026": [29264512, 9715437, 8687096, 7745330]
+  },
+  "marketShareCadenas": {
+    "labels": ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
+    "values": [48, 18, 16, 14, 5]
+  },
+  "planesCadena": [
+    {
+      "nombre": "Walmart+Tottus",
+      "key": "walmart",
+      "proyeccionUN": 5355312,
+      "crecimiento": 53,
+      "ms": 21,
+      "msDelta": 3,
+      "precioNeto": 395,
+      "skus": 7,
+      "iniciativas": [
+        "Grip Lista 1 / Tráfico 2 / Lista 4",
+        "Buen espacio en góndola y frío",
+        "7 SKUs de línea activos"
+      ]
+    },
+    {
+      "nombre": "Unimarc",
+      "key": "unimarc",
+      "proyeccionUN": 919000,
+      "crecimiento": 69,
+      "ms": 12,
+      "msDelta": 5,
+      "precioNeto": 361,
+      "skus": 5,
+      "iniciativas": [
+        "8/12 meses con grip activo",
+        "Objetivo Share Fair en espacios",
+        "Expansión de surtido"
+      ]
+    },
+    {
+      "nombre": "Santa Isabel",
+      "key": "santaisabel",
+      "proyeccionUN": 1248000,
+      "crecimiento": 76,
+      "ms": 14,
+      "msDelta": 5,
+      "precioNeto": 361,
+      "skus": 5,
+      "iniciativas": [
+        "Circuitos 40 islas Sep-Dic",
+        "Aumento dotación 50 salas top",
+        "Activaciones focalizadas"
+      ]
+    },
+    {
+      "nombre": "Jumbo",
+      "key": "jumbo",
+      "proyeccionUN": 1041500,
+      "crecimiento": 232,
+      "ms": 11,
+      "msDelta": 7,
+      "precioNeto": 381,
+      "skus": 3,
+      "iniciativas": [
+        "Inclusión radical de surtido",
+        "Reposición externa en 50 salas",
+        "Supervisor dedicado por cadena"
+      ]
+    },
+    {
+      "nombre": "Tottus",
+      "key": "tottus",
+      "proyeccionUN": 660000,
+      "crecimiento": 90,
+      "ms": 21,
+      "msDelta": 3,
+      "precioNeto": 436,
+      "skus": 5,
+      "iniciativas": [
+        "Incluir Bubble en línea",
+        "Plan inversión trimestral",
+        "Islas / Pantallas / Ecommerce / Degustaciones"
+      ]
+    },
+    {
+      "nombre": "Cabeceras Walmart",
+      "key": "cabeceras",
+      "proyeccionUN": null,
+      "crecimiento": null,
+      "ms": null,
+      "msDelta": null,
+      "precioNeto": null,
+      "skus": null,
+      "iniciativas": [
+        "8 salas anuales con agencia externa",
+        "Activación imagen de marca",
+        "Cabeceras premium en salas clave"
+      ]
+    }
+  ],
+  "supervisorActual": {
+    "supervisores": [
+      { "nombre": "ELIO", "salas": 64, "venta": 219814, "volPct": 50.0, "nuevo": false },
+      { "nombre": "ÁLVARO", "salas": 52, "venta": 219782, "volPct": 50.0, "nuevo": false }
+    ],
+    "cadenas": [
+      { "nombre": "Lider", "salas": 66 },
+      { "nombre": "Jumbo", "salas": 20 },
+      { "nombre": "Sta. Isabel", "salas": 10 },
+      { "nombre": "Tottus", "salas": 10 },
+      { "nombre": "Unimarc", "salas": 10 }
+    ],
+    "volSupervisado": 439569,
+    "pctRM": 26,
+    "pctChile": 12
+  },
+  "supervisorBuscado": {
+    "supervisores": [
+      { "nombre": "ELIO", "salas": 54, "venta": 205441, "volPct": 14.7, "nuevo": false },
+      { "nombre": "ÁLVARO", "salas": 50, "venta": 221122, "volPct": 15.8, "nuevo": false },
+      { "nombre": "KAS 3", "salas": 50, "venta": 79813, "volPct": 5.7, "nuevo": true },
+      { "nombre": "KAS 4", "salas": 50, "venta": 889399, "volPct": 63.7, "nuevo": true }
+    ],
+    "cadenas": [
+      { "nombre": "Lider", "salas": 76 },
+      { "nombre": "Jumbo", "salas": 20 },
+      { "nombre": "Sta. Isabel", "salas": 20 },
+      { "nombre": "Tottus", "salas": 30 },
+      { "nombre": "Unimarc", "salas": 10 },
+      { "nombre": "Alvi", "salas": 24 },
+      { "nombre": "Central Mayorista", "salas": 5 },
+      { "nombre": "Acuenta", "salas": 21 }
+    ],
+    "volSupervisado": 1395775,
+    "pctRM": 84,
+    "pctChile": 39
+  }
+}

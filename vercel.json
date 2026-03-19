@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/score", "destination": "/brands/score/index.html" },
+    { "source": "/score/(.*)", "destination": "/brands/score/$1" }
+  ]
+}
