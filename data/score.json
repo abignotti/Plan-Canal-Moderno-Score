@@ -2,22 +2,23 @@
   "kpis2025": { "latas": 5.9, "marketShare": 12, "posicion": 3 },
   "kpis2026": { "latas": 9.3, "marketShare": 17, "crecimiento": 55 },
   "ventasCLP": {
-    "labels": ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo"],
+    "labels": ["Walmart", "Unimarc", "Santa Isabel", "Jumbo"],
     "2025": [34946, 14591, 12243, 12180],
     "2026": [43683, 16051, 13467, 12545]
   },
   "ventasUN": {
-    "labels": ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo"],
+    "labels": ["Walmart", "Unimarc", "Santa Isabel", "Jumbo"],
     "2025": [23411610, 8832215, 7897360, 7519738],
     "2026": [29264512, 9715437, 8687096, 7745330]
   },
   "marketShareCadenas": {
-    "labels": ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
-    "values": [48, 18, 16, 14, 5]
+    "labels": ["Walmart", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
+    "values": [48, 18, 16, 14, 5],
+    "latas2026": [5355312, 919000, 1248000, 1041500, 660000]
   },
   "planesCadena": [
     {
-      "nombre": "Walmart+Tottus",
+      "nombre": "Walmart",
       "key": "walmart",
       "proyeccionUN": 5355312,
       "crecimiento": 53,
@@ -92,7 +93,7 @@
       ]
     },
     {
-      "nombre": "Cabeceras Walmart",
+      "nombre": "Cabeceras Jumbo",
       "key": "cabeceras",
       "proyeccionUN": null,
       "crecimiento": null,

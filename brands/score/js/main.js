@@ -12,26 +12,27 @@ var FALLBACK_DATA = {
   kpis2025: { latas: 5.9, marketShare: 12, posicion: 3 },
   kpis2026: { latas: 9.3, marketShare: 17, crecimiento: 55 },
   ventasCLP: {
-    labels: ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo"],
+    labels: ["Walmart", "Unimarc", "Santa Isabel", "Jumbo"],
     "2025": [34946, 14591, 12243, 12180],
     "2026": [43683, 16051, 13467, 12545]
   },
   ventasUN: {
-    labels: ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo"],
+    labels: ["Walmart", "Unimarc", "Santa Isabel", "Jumbo"],
     "2025": [23411610, 8832215, 7897360, 7519738],
     "2026": [29264512, 9715437, 8687096, 7745330]
   },
   marketShareCadenas: {
-    labels: ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
-    values: [48, 18, 16, 14, 5]
+    labels: ["Walmart", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
+    values: [48, 18, 16, 14, 5],
+    latas2026: [5355312, 919000, 1248000, 1041500, 660000]
   },
   planesCadena: [
-    { nombre: "Walmart+Tottus", key: "walmart", proyeccionUN: 5355312, crecimiento: 53, ms: 21, msDelta: 3, precioNeto: 395, skus: 7, iniciativas: ["Grip Lista 1 / Tráfico 2 / Lista 4", "Buen espacio en góndola y frío", "7 SKUs de línea activos"] },
+    { nombre: "Walmart", key: "walmart", proyeccionUN: 5355312, crecimiento: 53, ms: 21, msDelta: 3, precioNeto: 395, skus: 7, iniciativas: ["Grip Lista 1 / Tráfico 2 / Lista 4", "Buen espacio en góndola y frío", "7 SKUs de línea activos"] },
     { nombre: "Unimarc", key: "unimarc", proyeccionUN: 919000, crecimiento: 69, ms: 12, msDelta: 5, precioNeto: 361, skus: 5, iniciativas: ["8/12 meses con grip activo", "Objetivo Share Fair en espacios", "Expansión de surtido"] },
     { nombre: "Santa Isabel", key: "santaisabel", proyeccionUN: 1248000, crecimiento: 76, ms: 14, msDelta: 5, precioNeto: 361, skus: 5, iniciativas: ["Circuitos 40 islas Sep-Dic", "Aumento dotación 50 salas top", "Activaciones focalizadas"] },
     { nombre: "Jumbo", key: "jumbo", proyeccionUN: 1041500, crecimiento: 232, ms: 11, msDelta: 7, precioNeto: 381, skus: 3, iniciativas: ["Inclusión radical de surtido", "Reposición externa en 50 salas", "Supervisor dedicado por cadena"] },
     { nombre: "Tottus", key: "tottus", proyeccionUN: 660000, crecimiento: 90, ms: 21, msDelta: 3, precioNeto: 436, skus: 5, iniciativas: ["Incluir Bubble en línea", "Plan inversión trimestral", "Islas / Pantallas / Ecommerce / Degustaciones"] },
-    { nombre: "Cabeceras Walmart", key: "cabeceras", proyeccionUN: null, crecimiento: null, ms: null, msDelta: null, precioNeto: null, skus: null, iniciativas: ["8 salas anuales con agencia externa", "Activación imagen de marca", "Cabeceras premium en salas clave"] }
+    { nombre: "Cabeceras Jumbo", key: "cabeceras", proyeccionUN: null, crecimiento: null, ms: null, msDelta: null, precioNeto: null, skus: null, iniciativas: ["8 salas anuales con agencia externa", "Activación imagen de marca", "Cabeceras premium en salas clave"] }
   ],
   supervisorActual: {
     supervisores: [
@@ -66,13 +67,13 @@ var FALLBACK_DATA = {
    --------------------------------------------------------------- */
 var CHART_COLORS = {
   walmart:    '#0071CE',
-  unimarc:    '#003087',
-  santaisabel:'#CC0000',
-  jumbo:      '#F47920',
-  tottus:     '#E30613'
+  unimarc:    '#CE2029',
+  santaisabel:'#C41230',
+  jumbo:      '#009A44',
+  tottus:     '#66A40B'
 };
 
-var PIE_COLORS = ['#F4FF00', '#4A90E2', '#E24A4A', '#E28A4A', '#E24A7A'];
+var PIE_COLORS = ['#0071CE', '#CE2029', '#C41230', '#009A44', '#66A40B'];
 
 /* ---------------------------------------------------------------
    STATE
@@ -392,12 +393,24 @@ function initChartPie(d) {
   var legend = document.getElementById('pieLegend');
   if (legend) {
     legend.innerHTML = '';
+    var latas2026 = d.marketShareCadenas.latas2026 || null;
     labels.forEach(function(label, i) {
       var item = document.createElement('div');
       item.className = 'pie-legend-item';
+      var latasHtml = '';
+      if (latas2026 && latas2026[i]) {
+        var latasVal = latas2026[i];
+        var latasStr = latasVal >= 1000000
+          ? (latasVal / 1000000).toFixed(1) + 'M latas'
+          : Math.round(latasVal / 1000) + 'K latas';
+        latasHtml = '<span class="pie-legend-latas">' + latasStr + '</span>';
+      }
       item.innerHTML =
         '<div class="pie-legend-dot" style="background:' + PIE_COLORS[i] + '"></div>' +
-        '<span class="pie-legend-name">' + label + '</span>' +
+        '<div class="pie-legend-info">' +
+          '<span class="pie-legend-name">' + label + '</span>' +
+          latasHtml +
+        '</div>' +
         '<span class="pie-legend-pct">' + values[i] + '%</span>';
       legend.appendChild(item);
     });
@@ -419,72 +432,147 @@ function initChartObservers(d) {
 }
 
 /* ---------------------------------------------------------------
-   PLANES POR CADENA
+   PLANES POR CADENA — SLIDESHOW
    --------------------------------------------------------------- */
 function renderPlanes(d) {
-  var grid = document.getElementById('planesGrid');
-  if (!grid) return;
+  var track = document.getElementById('planesTrack');
+  var indicators = document.getElementById('planesIndicators');
+  if (!track) return;
 
-  grid.innerHTML = '';
+  track.innerHTML = '';
+  if (indicators) indicators.innerHTML = '';
 
-  d.planesCadena.forEach(function(plan) {
-    var card = document.createElement('div');
+  var colorMap = {
+    walmart:    'var(--color-walmart)',
+    unimarc:    'var(--color-unimarc)',
+    santaisabel:'var(--color-santaisabel)',
+    jumbo:      'var(--color-jumbo)',
+    tottus:     'var(--color-tottus)',
+    cabeceras:  'var(--color-jumbo)'
+  };
+
+  d.planesCadena.forEach(function(plan, i) {
+    var slide = document.createElement('div');
+    slide.className = 'planes-slide' + (i === 0 ? ' active' : '');
+
+    var color = colorMap[plan.key] || 'var(--color-accent)';
+    slide.style.setProperty('--chain-color', color);
+
     var isCabeceras = plan.key === 'cabeceras';
-    card.className = 'chain-card' + (isCabeceras ? ' chain-card--cabeceras' : '');
-
-    // Chain color for top border
-    var colorMap = {
-      walmart:    'var(--color-walmart)',
-      unimarc:    'var(--color-unimarc)',
-      santaisabel:'var(--color-santaisabel)',
-      jumbo:      'var(--color-jumbo)',
-      tottus:     'var(--color-tottus)',
-      cabeceras:  'var(--color-cabeceras)'
-    };
-    card.style.setProperty('--chain-color', colorMap[plan.key] || 'var(--color-accent)');
 
     var kpisHtml = '';
     if (!isCabeceras && plan.proyeccionUN !== null) {
       var isJumbo = plan.crecimiento >= 200;
-      kpisHtml = '<div class="chain-card__kpis">' +
-        '<div class="chain-kpi">' +
-          '<span class="chain-kpi__value">' + ScoreCore.formatNumber(plan.proyeccionUN) + '</span>' +
-          '<span class="chain-kpi__label">UN proyectadas</span>' +
-        '</div>' +
-        '<div class="chain-kpi chain-kpi--highlight' + (isJumbo ? ' chain-kpi--jumbo' : '') + '">' +
-          '<span class="chain-kpi__value">+' + plan.crecimiento + '%</span>' +
-          '<span class="chain-kpi__label">vs año anterior</span>' +
-        '</div>' +
-        '<div class="chain-kpi">' +
-          '<span class="chain-kpi__value">' + plan.ms + '%</span>' +
-          '<span class="chain-kpi__label">Market Share <span class="delta">+' + plan.msDelta + 'pp</span></span>' +
-        '</div>' +
-        '<div class="chain-kpi">' +
-          '<span class="chain-kpi__value">$' + plan.precioNeto + '</span>' +
-          '<span class="chain-kpi__label">precio neto</span>' +
-        '</div>' +
-      '</div>';
+      kpisHtml =
+        '<div class="slide-kpis">' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value">' + ScoreCore.formatNumber(plan.proyeccionUN) + '</span>' +
+            '<span class="slide-kpi__label">UN Proyectadas 2026</span>' +
+          '</div>' +
+          '<div class="slide-kpi slide-kpi--accent' + (isJumbo ? ' slide-kpi--big' : '') + '">' +
+            '<span class="slide-kpi__value">+' + plan.crecimiento + '%</span>' +
+            '<span class="slide-kpi__label">Crecimiento vs AA</span>' +
+          '</div>' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value">' + plan.ms + '%</span>' +
+            '<span class="slide-kpi__label">Market Share <span class="delta">+' + plan.msDelta + 'pp</span></span>' +
+          '</div>' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value">$' + plan.precioNeto + '</span>' +
+            '<span class="slide-kpi__label">Precio neto</span>' +
+          '</div>' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value">' + plan.skus + '</span>' +
+            '<span class="slide-kpi__label">SKUs de línea</span>' +
+          '</div>' +
+        '</div>';
     } else if (isCabeceras) {
-      kpisHtml = '<div class="chain-card__kpis" style="grid-template-columns:1fr">' +
-        '<div class="chain-kpi">' +
-          '<span class="chain-kpi__value" style="font-size:var(--text-lg)">Imagen de Marca</span>' +
-          '<span class="chain-kpi__label">8 salas anuales · Agencia externa</span>' +
+      kpisHtml =
+        '<div class="slide-cabeceras-image">' +
+          '<img src="../../Assets/Exhibiciones Supermercados/Imagen Cabeceras.png" alt="Cabeceras Jumbo" />' +
         '</div>' +
-      '</div>';
+        '<div class="slide-kpis slide-kpis--cabeceras">' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value" style="color:var(--chain-color)">8</span>' +
+            '<span class="slide-kpi__label">Salas anuales</span>' +
+          '</div>' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value">Agencia</span>' +
+            '<span class="slide-kpi__label">Gestión externa</span>' +
+          '</div>' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value" style="color:var(--chain-color)">Imagen</span>' +
+            '<span class="slide-kpi__label">Activación de marca</span>' +
+          '</div>' +
+        '</div>';
     }
 
     var initiativesHtml = plan.iniciativas.map(function(ini) {
-      return '<li class="chain-card__initiative">' + ini + '</li>';
+      return '<li class="slide-initiative">' + ini + '</li>';
     }).join('');
 
-    card.innerHTML =
-      '<div class="chain-card__header">' +
-        '<span class="chain-badge chain-badge--' + plan.key + '">' + plan.nombre + '</span>' +
-      '</div>' +
-      kpisHtml +
-      '<ul class="chain-card__initiatives">' + initiativesHtml + '</ul>';
+    slide.innerHTML =
+      '<div class="slide-inner">' +
+        '<div class="slide-header">' +
+          '<span class="chain-badge chain-badge--' + plan.key + ' chain-badge--lg">' + plan.nombre + '</span>' +
+          (plan.skus ? '<span class="slide-skus-badge">' + plan.skus + ' SKUs</span>' : '') +
+        '</div>' +
+        kpisHtml +
+        '<ul class="slide-initiatives"><h4 class="slide-initiatives__title">Iniciativas clave</h4>' + initiativesHtml + '</ul>' +
+      '</div>';
 
-    grid.appendChild(card);
+    track.appendChild(slide);
+
+    // Indicator dot
+    if (indicators) {
+      var dot = document.createElement('button');
+      dot.className = 'planes-indicator' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Ir a ' + plan.nombre);
+      dot.addEventListener('click', function() { goToSlide(i); });
+      indicators.appendChild(dot);
+    }
+  });
+
+  initPlanesSlideshow(d.planesCadena.length);
+}
+
+function goToSlide(index) {
+  var slides = document.querySelectorAll('.planes-slide');
+  var dots = document.querySelectorAll('.planes-indicator');
+  var total = slides.length;
+  if (index < 0) index = total - 1;
+  if (index >= total) index = 0;
+
+  slides.forEach(function(s, i) { s.classList.toggle('active', i === index); });
+  dots.forEach(function(d, i) { d.classList.toggle('active', i === index); });
+  window._planesCurrentSlide = index;
+}
+
+function initPlanesSlideshow(total) {
+  window._planesCurrentSlide = 0;
+
+  var prevBtn = document.getElementById('planesPrev');
+  var nextBtn = document.getElementById('planesNext');
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+      goToSlide((window._planesCurrentSlide - 1 + total) % total);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+      goToSlide((window._planesCurrentSlide + 1) % total);
+    });
+  }
+
+  // Keyboard navigation when in section
+  document.addEventListener('keydown', function(e) {
+    var section = document.getElementById('planes');
+    if (!section) return;
+    var rect = section.getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) return;
+    if (e.key === 'ArrowRight') goToSlide((window._planesCurrentSlide + 1) % total);
+    if (e.key === 'ArrowLeft')  goToSlide((window._planesCurrentSlide - 1 + total) % total);
   });
 }
 
@@ -515,11 +603,10 @@ function renderSupervisores(d) {
     d.supervisorBuscado.supervisores.forEach(function(s) {
       var row = document.createElement('div');
       row.className = 'supervisor-row';
-      var newBadge = s.nuevo ? '<span class="badge badge--new" style="margin-left:auto;margin-right:var(--space-2)">Nuevo</span>' : '';
+      var newBadge = s.nuevo ? ' <span class="badge badge--new" style="font-size:0.55rem;vertical-align:middle;margin-left:4px">(Nuevo)</span>' : '';
       row.innerHTML =
-        '<span class="supervisor-name">' + s.nombre + '</span>' +
+        '<span class="supervisor-name">' + s.nombre + newBadge + '</span>' +
         '<span class="supervisor-salas">' + s.salas + ' salas</span>' +
-        newBadge +
         '<span class="supervisor-vol">' + ScoreCore.formatNumber(s.venta) + '</span>' +
         '<span class="supervisor-pct" style="' + (s.nuevo ? 'color:var(--color-success)' : '') + '">' + s.volPct + '%</span>';
       buscadoContainer.appendChild(row);
@@ -582,46 +669,46 @@ function initOrgChartAnimation() {
 }
 
 /* ---------------------------------------------------------------
-   CANAL IMAGEN — PHOTO CAROUSEL
+   CANAL IMAGEN — PHOTO CAROUSEL + LIGHTBOX
    --------------------------------------------------------------- */
 function initImagenCards() {
   var cards = document.querySelectorAll('.imagen-card[data-chain]');
+  var allPhotos = []; // flat list of {url, chain} for lightbox navigation
+  var lightboxOpen = false;
+  var lightboxIndex = 0;
 
+  // Build flat photo list
   cards.forEach(function(card) {
+    var chain = card.getAttribute('data-chain');
+    var chainLabel = card.querySelector('.chain-badge') ? card.querySelector('.chain-badge').textContent : chain;
     var photos = card.querySelectorAll('.imagen-photo');
-    var dots   = card.querySelectorAll('.imagen-dot');
-    if (!photos.length) return;
+    photos.forEach(function(p) {
+      var url = p.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, '$1');
+      if (url) allPhotos.push({ url: url, chain: chainLabel });
+    });
 
+    // Carousel on hover
     var currentIndex = 0;
     var timer = null;
 
     function showPhoto(index) {
-      photos.forEach(function(p, i) {
-        p.classList.toggle('active', i === index);
-      });
-      dots.forEach(function(d, i) {
-        d.classList.toggle('active', i === index);
-      });
+      photos.forEach(function(p, i) { p.classList.toggle('active', i === index); });
+      var dots = card.querySelectorAll('.imagen-dot');
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === index); });
       currentIndex = index;
     }
 
-    function nextPhoto() {
-      showPhoto((currentIndex + 1) % photos.length);
-    }
-
-    // Auto-rotate on hover
     card.addEventListener('mouseenter', function() {
-      if (photos.length > 1) {
-        timer = setInterval(nextPhoto, 1800);
-      }
+      if (photos.length > 1) timer = setInterval(function() {
+        showPhoto((currentIndex + 1) % photos.length);
+      }, 1800);
     });
-
     card.addEventListener('mouseleave', function() {
       clearInterval(timer);
       showPhoto(0);
     });
 
-    // Dot click
+    var dots = card.querySelectorAll('.imagen-dot');
     dots.forEach(function(dot, i) {
       dot.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -630,19 +717,60 @@ function initImagenCards() {
       });
     });
 
-    // Keyboard
-    card.addEventListener('keydown', function(e) {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        e.preventDefault();
-        clearInterval(timer);
-        showPhoto((currentIndex + 1) % photos.length);
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        e.preventDefault();
-        clearInterval(timer);
-        var prev = (currentIndex - 1 + photos.length) % photos.length;
-        showPhoto(prev);
-      }
+    // Click → open lightbox
+    card.addEventListener('click', function() {
+      // Find index of current photo in allPhotos
+      var chainLabel2 = card.querySelector('.chain-badge') ? card.querySelector('.chain-badge').textContent : chain;
+      var activePhoto = card.querySelector('.imagen-photo.active');
+      var url = activePhoto ? activePhoto.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, '$1') : '';
+      var idx = allPhotos.findIndex(function(p) { return p.url === url; });
+      openLightbox(idx >= 0 ? idx : 0);
     });
+  });
+
+  function openLightbox(index) {
+    var lb = document.getElementById('lightbox');
+    var img = document.getElementById('lightboxImg');
+    var cap = document.getElementById('lightboxCaption');
+    if (!lb || !allPhotos.length) return;
+    lightboxIndex = index;
+    lightboxOpen = true;
+    img.style.backgroundImage = 'url("' + allPhotos[index].url + '")';
+    if (cap) cap.textContent = allPhotos[index].chain;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    var lb = document.getElementById('lightbox');
+    if (lb) lb.classList.remove('open');
+    lightboxOpen = false;
+    document.body.style.overflow = '';
+  }
+
+  function lightboxNav(dir) {
+    lightboxIndex = (lightboxIndex + dir + allPhotos.length) % allPhotos.length;
+    var img = document.getElementById('lightboxImg');
+    var cap = document.getElementById('lightboxCaption');
+    if (img) img.style.backgroundImage = 'url("' + allPhotos[lightboxIndex].url + '")';
+    if (cap) cap.textContent = allPhotos[lightboxIndex].chain;
+  }
+
+  var closeBtn = document.getElementById('lightboxClose');
+  var prevBtn  = document.getElementById('lightboxPrev');
+  var nextBtn  = document.getElementById('lightboxNext');
+  var lb       = document.getElementById('lightbox');
+
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (prevBtn)  prevBtn.addEventListener('click', function() { lightboxNav(-1); });
+  if (nextBtn)  nextBtn.addEventListener('click', function() { lightboxNav(1); });
+  if (lb) lb.addEventListener('click', function(e) { if (e.target === lb) closeLightbox(); });
+
+  document.addEventListener('keydown', function(e) {
+    if (!lightboxOpen) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowRight') lightboxNav(1);
+    if (e.key === 'ArrowLeft')  lightboxNav(-1);
   });
 }
 
