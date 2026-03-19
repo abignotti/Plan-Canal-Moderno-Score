@@ -12,26 +12,27 @@ var FALLBACK_DATA = {
   kpis2025: { latas: 5.9, marketShare: 12, posicion: 3 },
   kpis2026: { latas: 9.3, marketShare: 17, crecimiento: 55 },
   ventasCLP: {
-    labels: ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo"],
+    labels: ["Walmart", "Unimarc", "Santa Isabel", "Jumbo"],
     "2025": [34946, 14591, 12243, 12180],
     "2026": [43683, 16051, 13467, 12545]
   },
   ventasUN: {
-    labels: ["Walmart+Tottus", "Unimarc", "Santa Isabel", "Jumbo"],
+    labels: ["Walmart", "Unimarc", "Santa Isabel", "Jumbo"],
     "2025": [23411610, 8832215, 7897360, 7519738],
     "2026": [29264512, 9715437, 8687096, 7745330]
   },
   marketShareCadenas: {
     labels: ["Walmart", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
-    values: [48, 18, 16, 14, 5]
+    values: [48, 18, 16, 14, 5],
+    latas2026: [5355312, 919000, 1248000, 1041500, 660000]
   },
   planesCadena: [
-    { nombre: "Walmart+Tottus", key: "walmart", proyeccionUN: 5355312, crecimiento: 53, ms: 21, msDelta: 3, precioNeto: 395, skus: 7, iniciativas: ["Grip Lista 1 / Tráfico 2 / Lista 4", "Buen espacio en góndola y frío", "7 SKUs de línea activos"] },
+    { nombre: "Walmart", key: "walmart", proyeccionUN: 5355312, crecimiento: 53, ms: 21, msDelta: 3, precioNeto: 395, skus: 7, iniciativas: ["Grip Lista 1 / Tráfico 2 / Lista 4", "Buen espacio en góndola y frío", "7 SKUs de línea activos"] },
     { nombre: "Unimarc", key: "unimarc", proyeccionUN: 919000, crecimiento: 69, ms: 12, msDelta: 5, precioNeto: 361, skus: 5, iniciativas: ["8/12 meses con grip activo", "Objetivo Share Fair en espacios", "Expansión de surtido"] },
     { nombre: "Santa Isabel", key: "santaisabel", proyeccionUN: 1248000, crecimiento: 76, ms: 14, msDelta: 5, precioNeto: 361, skus: 5, iniciativas: ["Circuitos 40 islas Sep-Dic", "Aumento dotación 50 salas top", "Activaciones focalizadas"] },
     { nombre: "Jumbo", key: "jumbo", proyeccionUN: 1041500, crecimiento: 232, ms: 11, msDelta: 7, precioNeto: 381, skus: 3, iniciativas: ["Inclusión radical de surtido", "Reposición externa en 50 salas", "Supervisor dedicado por cadena"] },
     { nombre: "Tottus", key: "tottus", proyeccionUN: 660000, crecimiento: 90, ms: 21, msDelta: 3, precioNeto: 436, skus: 5, iniciativas: ["Incluir Bubble en línea", "Plan inversión trimestral", "Islas / Pantallas / Ecommerce / Degustaciones"] },
-    { nombre: "Cabeceras Walmart", key: "cabeceras", proyeccionUN: null, crecimiento: null, ms: null, msDelta: null, precioNeto: null, skus: null, iniciativas: ["8 salas anuales con agencia externa", "Activación imagen de marca", "Cabeceras premium en salas clave"] }
+    { nombre: "Cabeceras Jumbo", key: "cabeceras", proyeccionUN: null, crecimiento: null, ms: null, msDelta: null, precioNeto: null, skus: null, iniciativas: ["8 salas anuales con agencia externa", "Activación imagen de marca", "Cabeceras premium en salas clave"] }
   ],
   supervisorActual: {
     supervisores: [
@@ -66,13 +67,13 @@ var FALLBACK_DATA = {
    --------------------------------------------------------------- */
 var CHART_COLORS = {
   walmart:    '#0071CE',
-  unimarc:    '#003087',
-  santaisabel:'#CC0000',
-  jumbo:      '#F47920',
-  tottus:     '#E30613'
+  unimarc:    '#CE2029',
+  santaisabel:'#C41230',
+  jumbo:      '#009A44',
+  tottus:     '#66A40B'
 };
 
-var PIE_COLORS = ['#0071CE', '#1a3a6b', '#CC0000', '#E07020', '#7C3AED'];
+var PIE_COLORS = ['#0071CE', '#CE2029', '#C41230', '#009A44', '#66A40B'];
 
 /* ---------------------------------------------------------------
    STATE
@@ -392,12 +393,24 @@ function initChartPie(d) {
   var legend = document.getElementById('pieLegend');
   if (legend) {
     legend.innerHTML = '';
+    var latas2026 = d.marketShareCadenas.latas2026 || null;
     labels.forEach(function(label, i) {
       var item = document.createElement('div');
       item.className = 'pie-legend-item';
+      var latasHtml = '';
+      if (latas2026 && latas2026[i]) {
+        var latasVal = latas2026[i];
+        var latasStr = latasVal >= 1000000
+          ? (latasVal / 1000000).toFixed(1) + 'M latas'
+          : Math.round(latasVal / 1000) + 'K latas';
+        latasHtml = '<span class="pie-legend-latas">' + latasStr + '</span>';
+      }
       item.innerHTML =
         '<div class="pie-legend-dot" style="background:' + PIE_COLORS[i] + '"></div>' +
-        '<span class="pie-legend-name">' + label + '</span>' +
+        '<div class="pie-legend-info">' +
+          '<span class="pie-legend-name">' + label + '</span>' +
+          latasHtml +
+        '</div>' +
         '<span class="pie-legend-pct">' + values[i] + '%</span>';
       legend.appendChild(item);
     });
@@ -435,7 +448,7 @@ function renderPlanes(d) {
     santaisabel:'var(--color-santaisabel)',
     jumbo:      'var(--color-jumbo)',
     tottus:     'var(--color-tottus)',
-    cabeceras:  'var(--color-cabeceras)'
+    cabeceras:  'var(--color-jumbo)'
   };
 
   d.planesCadena.forEach(function(plan, i) {
@@ -475,10 +488,21 @@ function renderPlanes(d) {
         '</div>';
     } else if (isCabeceras) {
       kpisHtml =
-        '<div class="slide-kpis">' +
-          '<div class="slide-kpi" style="grid-column:1/-1">' +
-            '<span class="slide-kpi__value" style="font-size:var(--text-3xl)">Imagen de Marca</span>' +
-            '<span class="slide-kpi__label">8 salas anuales · Agencia externa</span>' +
+        '<div class="slide-cabeceras-image">' +
+          '<img src="../../Assets/Exhibiciones Supermercados/Imagen Cabeceras.png" alt="Cabeceras Jumbo" />' +
+        '</div>' +
+        '<div class="slide-kpis slide-kpis--cabeceras">' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value" style="color:var(--chain-color)">8</span>' +
+            '<span class="slide-kpi__label">Salas anuales</span>' +
+          '</div>' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value">Agencia</span>' +
+            '<span class="slide-kpi__label">Gestión externa</span>' +
+          '</div>' +
+          '<div class="slide-kpi">' +
+            '<span class="slide-kpi__value" style="color:var(--chain-color)">Imagen</span>' +
+            '<span class="slide-kpi__label">Activación de marca</span>' +
           '</div>' +
         '</div>';
     }
@@ -711,7 +735,7 @@ function initImagenCards() {
     if (!lb || !allPhotos.length) return;
     lightboxIndex = index;
     lightboxOpen = true;
-    img.style.backgroundImage = 'url(' + allPhotos[index].url + ')';
+    img.style.backgroundImage = 'url("' + allPhotos[index].url + '")';
     if (cap) cap.textContent = allPhotos[index].chain;
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -728,7 +752,7 @@ function initImagenCards() {
     lightboxIndex = (lightboxIndex + dir + allPhotos.length) % allPhotos.length;
     var img = document.getElementById('lightboxImg');
     var cap = document.getElementById('lightboxCaption');
-    if (img) img.style.backgroundImage = 'url(' + allPhotos[lightboxIndex].url + ')';
+    if (img) img.style.backgroundImage = 'url("' + allPhotos[lightboxIndex].url + '")';
     if (cap) cap.textContent = allPhotos[lightboxIndex].chain;
   }
 

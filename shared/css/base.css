@@ -25,11 +25,12 @@
 
   /* Chain Colors */
   --color-walmart:      #0071CE;
-  --color-unimarc:      #003087;
-  --color-santaisabel:  #CC0000;
-  --color-jumbo:        #F47920;
-  --color-tottus:       #E30613;
-  --color-cabeceras:    #0071CE;
+  --color-unimarc:      #CE2029;
+  --color-santaisabel:  #C41230;
+  --color-jumbo:        #009A44;
+  --color-tottus:       #66A40B;
+  --color-easy:         #E20714;
+  --color-cabeceras:    #009A44;
 
   /* Typography */
   --font-display:  'Bebas Neue', 'Arial Black', sans-serif;
@@ -363,10 +364,10 @@ canvas {
 .chain-badge--walmart   { background: var(--color-walmart); }
 .chain-badge--unimarc   { background: var(--color-unimarc); }
 .chain-badge--santaisabel { background: var(--color-santaisabel); }
-.chain-badge--jumbo     { background: var(--color-jumbo); color: #000; }
+.chain-badge--jumbo     { background: var(--color-jumbo); }
 .chain-badge--tottus    { background: var(--color-tottus); }
 .chain-badge--cabeceras { background: var(--color-cabeceras); }
-.chain-badge--easy      { background: rgba(244, 121, 32, 0.5); color: rgba(255,255,255,0.5); }
+.chain-badge--easy      { background: var(--color-easy); }
 
 /* ---------------------------------------------------------------
    SPLIT LAYOUT (two columns)
