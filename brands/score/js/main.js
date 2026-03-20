@@ -28,9 +28,9 @@ var FALLBACK_DATA = {
   },
   planesCadena: [
     { nombre: "Walmart", key: "walmart", proyeccionUN: 5355312, crecimiento: 53, ms: 21, msDelta: 3, precioNeto: 395, skus: 7, iniciativas: ["Grip Lista 1 / Tráfico 2 / Lista 4", "Buen espacio en góndola y frío", "7 SKUs de línea activos"] },
-    { nombre: "Unimarc", key: "unimarc", proyeccionUN: 919000, crecimiento: 69, ms: 12, msDelta: 5, precioNeto: 361, skus: 5, iniciativas: ["8/12 meses con grip activo", "Objetivo Share Fair en espacios", "Expansión de surtido"] },
+    { nombre: "Unimarc", key: "unimarc", proyeccionUN: 1041500, crecimiento: 232, ms: 11, msDelta: 7, precioNeto: 381, skus: 3, iniciativas: ["Inclusión radical de surtido", "Reposición externa en 50 salas", "Supervisor dedicado por cadena"] },
     { nombre: "Santa Isabel", key: "santaisabel", proyeccionUN: 1248000, crecimiento: 76, ms: 14, msDelta: 5, precioNeto: 361, skus: 5, iniciativas: ["Circuitos 40 islas Sep-Dic", "Aumento dotación 50 salas top", "Activaciones focalizadas"] },
-    { nombre: "Jumbo", key: "jumbo", proyeccionUN: 1041500, crecimiento: 232, ms: 11, msDelta: 7, precioNeto: 381, skus: 3, iniciativas: ["Inclusión radical de surtido", "Reposición externa en 50 salas", "Supervisor dedicado por cadena"] },
+    { nombre: "Jumbo", key: "jumbo", proyeccionUN: 919000, crecimiento: 69, ms: 12, msDelta: 5, precioNeto: 361, skus: 5, iniciativas: ["Grip Promocional: 8/12 meses activados", "Objetivo Share Fair en espacios", "5 SKUs de línea"] },
     { nombre: "Tottus", key: "tottus", proyeccionUN: 660000, crecimiento: 90, ms: 21, msDelta: 3, precioNeto: 436, skus: 5, iniciativas: ["Incluir Bubble en línea", "Plan inversión trimestral", "Islas / Pantallas / Ecommerce / Degustaciones"] },
     { nombre: "Cabeceras Jumbo", key: "cabeceras", proyeccionUN: null, crecimiento: null, ms: null, msDelta: null, precioNeto: null, skus: null, iniciativas: ["8 salas anuales con agencia externa", "Activación imagen de marca", "Cabeceras premium en salas clave"] }
   ],
@@ -389,31 +389,46 @@ function initChartPie(d) {
     }
   });
 
-  // Build custom legend
-  var legend = document.getElementById('pieLegend');
-  if (legend) {
-    legend.innerHTML = '';
-    var latas2026 = d.marketShareCadenas.latas2026 || null;
+  // Build distribution table
+  var table = document.getElementById('distTable');
+  if (table) {
+    var mc = d.marketShareCadenas;
+    var latas2025 = mc.latas2025 || [];
+    var latas2026 = mc.latas2026 || [];
+    var crec = mc.crecimiento || [];
+    var shareValues = mc.values || values;
+
+    function fmtNum(n) {
+      return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    var html = '<thead><tr>' +
+      '<th>Cadena</th>' +
+      '<th>2025 (UN)</th>' +
+      '<th>2026 (UN)</th>' +
+      '<th>Crec.</th>' +
+      '<th>Share 2026</th>' +
+      '</tr></thead><tbody>';
+
     labels.forEach(function(label, i) {
-      var item = document.createElement('div');
-      item.className = 'pie-legend-item';
-      var latasHtml = '';
-      if (latas2026 && latas2026[i]) {
-        var latasVal = latas2026[i];
-        var latasStr = latasVal >= 1000000
-          ? (latasVal / 1000000).toFixed(1) + 'M latas'
-          : Math.round(latasVal / 1000) + 'K latas';
-        latasHtml = '<span class="pie-legend-latas">' + latasStr + '</span>';
-      }
-      item.innerHTML =
-        '<div class="pie-legend-dot" style="background:' + PIE_COLORS[i] + '"></div>' +
-        '<div class="pie-legend-info">' +
-          '<span class="pie-legend-name">' + label + '</span>' +
-          latasHtml +
-        '</div>' +
-        '<span class="pie-legend-pct">' + values[i] + '%</span>';
-      legend.appendChild(item);
+      html += '<tr>' +
+        '<td><span class="dist-dot" style="background:' + PIE_COLORS[i] + '"></span>' + label + '</td>' +
+        '<td>' + fmtNum(latas2025[i]) + '</td>' +
+        '<td>' + fmtNum(latas2026[i]) + '</td>' +
+        '<td class="dist-crec">+' + crec[i] + '%</td>' +
+        '<td>' + shareValues[i] + '%</td>' +
+        '</tr>';
     });
+
+    html += '</tbody><tfoot><tr class="dist-total">' +
+      '<td>Total SPM</td>' +
+      '<td>' + fmtNum(mc.total2025) + '</td>' +
+      '<td>' + fmtNum(mc.total2026) + '</td>' +
+      '<td class="dist-crec">+' + mc.totalCrecimiento + '%</td>' +
+      '<td>100%</td>' +
+      '</tr></tfoot>';
+
+    table.innerHTML = html;
   }
 }
 

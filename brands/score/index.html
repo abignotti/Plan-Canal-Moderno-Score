@@ -186,7 +186,7 @@
               <tr><th>TOTAL SPM</th><th>2026</th><th>2025</th><th>Crec. Proyectado</th></tr>
             </thead>
             <tbody>
-              <tr><td>LATAS</td><td>$85.745.970.598</td><td>$73.960.553.993</td><td class="spm-crec">16%</td></tr>
+              <tr><td>VALOR CLP</td><td>$85.745.970.598</td><td>$73.960.553.993</td><td class="spm-crec">16%</td></tr>
             </tbody>
           </table>
         </div>
@@ -214,14 +214,18 @@
     <div class="section__inner">
       <p class="section__label" data-reveal>MARKET SHARE</p>
       <h2 class="section__title" data-reveal data-reveal-delay="0.1">Distribución por Cadena</h2>
-      <p class="section__subtitle" data-reveal data-reveal-delay="0.15">Market share en volumen — Canal Moderno Chile</p>
+      <p class="section__subtitle" data-reveal data-reveal-delay="0.15">Share proyectado en volumen — Categoría Energéticas, Canal Moderno Chile</p>
 
-      <div class="pie-layout" data-reveal data-reveal-delay="0.2">
-        <div class="pie-canvas-wrapper">
-          <canvas id="chartPie" role="img" aria-label="Gráfico de distribución de mercado por cadena"></canvas>
+      <div class="dist-layout" data-reveal data-reveal-delay="0.2">
+        <div class="dist-chart-col">
+          <div class="pie-canvas-wrapper">
+            <canvas id="chartPie" role="img" aria-label="Gráfico de distribución de mercado por cadena"></canvas>
+          </div>
         </div>
-        <div class="pie-legend" id="pieLegend">
-          <!-- Populated by JS -->
+        <div class="dist-table-col">
+          <table class="dist-table" id="distTable">
+            <!-- Populated by JS -->
+          </table>
         </div>
       </div>
     </div>
@@ -267,7 +271,6 @@
         <div class="org-level">
           <div class="org-node org-node--top" id="orgGTE">
             <span class="org-node__role">GTE Supermercados</span>
-            <span class="org-node__title">Gerente de Trade</span>
             <ul class="org-node__functions" aria-label="Funciones">
               <li class="org-node__function">Negociación comercial</li>
               <li class="org-node__function">Promocionalidad</li>

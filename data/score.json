@@ -2,19 +2,24 @@
   "kpis2025": { "latas": 5.9, "marketShare": 12, "posicion": 3 },
   "kpis2026": { "latas": 9.3, "marketShare": 17, "crecimiento": 55 },
   "ventasCLP": {
-    "labels": ["Walmart", "Unimarc", "Santa Isabel", "Jumbo"],
-    "2025": [34946, 14591, 12243, 12180],
-    "2026": [43683, 16051, 13467, 12545]
+    "labels": ["Walmart", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
+    "2025": [31248, 14591, 12243, 12180, 3698],
+    "2026": [39396, 16051, 13467, 12545, 4287]
   },
   "ventasUN": {
-    "labels": ["Walmart", "Unimarc", "Santa Isabel", "Jumbo"],
-    "2025": [23411610, 8832215, 7897360, 7519738],
-    "2026": [29264512, 9715437, 8687096, 7745330]
+    "labels": ["Walmart", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
+    "2025": [21028564, 8832215, 7897360, 7519738, 2383046],
+    "2026": [26493893, 9715437, 8687096, 7745330, 2770619]
   },
   "marketShareCadenas": {
     "labels": ["Walmart", "Unimarc", "Santa Isabel", "Jumbo", "Tottus"],
     "values": [48, 18, 16, 14, 5],
-    "latas2026": [5355312, 919000, 1248000, 1041500, 660000]
+    "latas2025": [21028564, 8832215, 7897360, 7519738, 2383046],
+    "latas2026": [26493893, 9715437, 8687096, 7745330, 2770619],
+    "crecimiento": [26, 10, 10, 3, 16],
+    "total2025": 47660923,
+    "total2026": 55412375,
+    "totalCrecimiento": 16
   },
   "planesCadena": [
     {
@@ -35,16 +40,16 @@
     {
       "nombre": "Unimarc",
       "key": "unimarc",
-      "proyeccionUN": 919000,
-      "crecimiento": 69,
-      "ms": 12,
-      "msDelta": 5,
-      "precioNeto": 361,
-      "skus": 5,
+      "proyeccionUN": 1041500,
+      "crecimiento": 232,
+      "ms": 11,
+      "msDelta": 7,
+      "precioNeto": 381,
+      "skus": 3,
       "iniciativas": [
-        "8/12 meses con grip activo",
-        "Objetivo Share Fair en espacios",
-        "Expansión de surtido"
+        "Inclusión radical de surtido",
+        "Reposición externa en 50 salas",
+        "Supervisor dedicado por cadena"
       ]
     },
     {
@@ -65,16 +70,16 @@
     {
       "nombre": "Jumbo",
       "key": "jumbo",
-      "proyeccionUN": 1041500,
-      "crecimiento": 232,
-      "ms": 11,
-      "msDelta": 7,
-      "precioNeto": 381,
-      "skus": 3,
+      "proyeccionUN": 919000,
+      "crecimiento": 69,
+      "ms": 12,
+      "msDelta": 5,
+      "precioNeto": 361,
+      "skus": 5,
       "iniciativas": [
-        "Inclusión radical de surtido",
-        "Reposición externa en 50 salas",
-        "Supervisor dedicado por cadena"
+        "Grip Promocional: 8/12 meses activados",
+        "Objetivo Share Fair en espacios",
+        "5 SKUs de línea"
       ]
     },
     {
